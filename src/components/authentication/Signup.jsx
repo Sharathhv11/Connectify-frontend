@@ -12,10 +12,11 @@ import passwordValidarorErrorSetter, {
 import validateEmailErrorSetter, {
   validateEmail,
 } from "../../Utils/emailValidator";
-import client from "../../axiosClient";
+
 import { ColorRing } from "react-loader-spinner";
 import toast from "react-hot-toast";
 import Buttons from "./Buttons";
+import signUpClient from "../../ApiCalls/signUp";
 
 const Signup = () => {
   //?state that takes maintains the data of user registration
@@ -69,7 +70,7 @@ const Signup = () => {
     } else {
       try {
         setSignUp(false);
-        const postRequest = await client.post("/auth/signUp", userDetails);
+        const postRequest = await signUpClient(userDetails);
         toast.success(postRequest.data.message);
         
       } catch (error) {

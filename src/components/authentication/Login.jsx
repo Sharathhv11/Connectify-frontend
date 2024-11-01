@@ -14,8 +14,9 @@ import validateEmailErrorSetter, {
 } from "../../Utils/emailValidator";
 import { Link } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
-import client from "../../axiosClient";
 import toast from "react-hot-toast";
+
+import loginClient from "../../ApiCalls/loginClient";
 
 const Login = () => {
   const [errorState, setErrors] = useState("");
@@ -65,7 +66,8 @@ const Login = () => {
     } else {
       try {
         setLogin(false);
-        const postRequest = await client.post("/auth/login", userDetails);
+        const postRequest = await loginClient(userDetails);
+
         if(postRequest.data.status === "failed"){
           setLogin(true);
           return toast.error(postRequest.data.message);
