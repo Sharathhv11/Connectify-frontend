@@ -52,7 +52,7 @@ const Password = ({value,onchange}) => {
           type={passwordStatus}
           name="password"
           id="password"
-          className="h-10 outline-none border-none p-1  w-[90%] custome-inputs"
+          className="h-10 outline-none border-none p-1  w-[90%] custome-inputs bg-transparent"
           placeholder="Enter your Password"
           value={value}
           onChange={onchange}

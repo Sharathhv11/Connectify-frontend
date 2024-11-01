@@ -15,6 +15,7 @@ import validateEmailErrorSetter, {
 import client from "../../axiosClient";
 import { ColorRing } from "react-loader-spinner";
 import toast from "react-hot-toast";
+import Buttons from "./Buttons";
 
 const Signup = () => {
   //?state that takes maintains the data of user registration
@@ -127,32 +128,35 @@ const Signup = () => {
             />
           </form>
 
-          <button
-            className="bg-black text-white w-full h-[40px] rounded-sm flex justify-center items-center gap-x-5"
-            onClick={handelOnSubmit}
-          >
-            {signUp && "Sign Up"}
-            {!signUp && (
-              <>
-                <ColorRing
-                  visible={true}
-                  height="25"
-                  width="25"
-                  ariaLabel="color-ring-loading"
-                  wrapperStyle={{}}
-                  wrapperClass="color-ring-wrapper"
-                  colors={[
-                    "white",
-                    "white",
-                    "white",
-                    "white",
-                    "white",
-                  ]}
-                />
-                <p>Registering</p>
-              </>
-            )}
-          </button>
+
+          {
+           signUp && <Buttons
+            handler={handelOnSubmit} 
+            text={"Sign Up"}
+            />
+          }{
+            !signUp && <Buttons
+            handler={handelOnSubmit} 
+            text={<>
+              <ColorRing
+                visible={true}
+                height="25"
+                width="25"
+                ariaLabel="color-ring-loading"
+                wrapperStyle={{}}
+                wrapperClass="color-ring-wrapper"
+                colors={[
+                  "white",
+                  "white",
+                  "white",
+                  "white",
+                  "white",
+                ]}
+              />
+              <p>Registering</p>
+            </>}
+            />
+          }
 
           <div className="w-full  flex justify-center h-10 items-center">
             <p>
@@ -173,6 +177,4 @@ const Signup = () => {
 
 export default Signup;
 
-{
-  /* */
-}
+
