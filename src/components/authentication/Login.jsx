@@ -15,10 +15,13 @@ import validateEmailErrorSetter, {
 import { Link } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import toast from "react-hot-toast";
-
+import { useNavigate } from "react-router-dom";
 import loginClient from "../../ApiCalls/loginClient";
 
 const Login = () => {
+
+  const navigate = useNavigate();
+
   const [errorState, setErrors] = useState("");
 
   const [userDetails, setUserDetails] = useState({
@@ -75,6 +78,10 @@ const Login = () => {
         }
 
         toast.success(postRequest.data.message);
+        localStorage.setItem("token",postRequest.data.token);
+
+        navigate("/");
+
 
         
       } catch (error) {
