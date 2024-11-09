@@ -162,3 +162,9 @@ body,
   font-weight: 900;
   font-style: italic;
 }
+
+
+.card-text{
+  font-size: 15px;
+  color: #666;
+}

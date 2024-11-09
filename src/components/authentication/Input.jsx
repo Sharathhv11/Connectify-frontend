@@ -9,7 +9,7 @@ const Input = ({ type, name, placeholder,value,onchange }) => {
           type={type}
           name={name}
           id={name}
-          className="w-full h-8 p-1 border-none outline-none bg-transparent custome-inputs "
+          className="w-full h-8 p-1 border-none outline-none bg-transparent custome-inputs poppins-medium"
           placeholder={placeholder}
           value={value}
           onChange={onchange}
@@ -26,7 +26,7 @@ const EmailInput = ({value,onchange}) => {
         type="email"
         name="email"
         id="email"
-        className="p-1 h-10 outline-none border-none bg-transparent custome-inputs"
+        className="p-1 h-10 outline-none border-none bg-transparent custome-inputs poppins-medium"
         placeholder="Enter your email"
         value={value}
         onChange={onchange}
@@ -52,7 +52,7 @@ const Password = ({value,onchange}) => {
           type={passwordStatus}
           name="password"
           id="password"
-          className="h-10 outline-none border-none p-1  w-[90%] custome-inputs bg-transparent"
+          className="poppins-medium h-10 outline-none border-none p-1  w-[90%] custome-inputs bg-transparent"
           placeholder="Enter your Password"
           value={value}
           onChange={onchange}

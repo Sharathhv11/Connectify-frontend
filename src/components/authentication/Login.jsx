@@ -66,28 +66,31 @@ const Login = () => {
       return setErrors("Invalid email address");
     } else if (passwordValidator(userDetails.password.trim())) {
       return setErrors("Password must have 8-32 charecter only");
-    } else {
+    } else{
       try {
-        setLogin(false);
-        const postRequest = await loginClient(userDetails);
 
-        if(postRequest.data.status === "failed"){
+        setLogin(false);
+        const loginDetails = await loginClient(userDetails);
+
+        if(loginDetails.status === 400 ){
           setLogin(true);
-          return toast.error(postRequest.data.message);
-          
+          return toast.error(loginDetails.response.data.message);
         }
 
-        toast.success(postRequest.data.message);
-        localStorage.setItem("token",postRequest.data.token);
+        toast.success(loginDetails.data.message);
+
+        localStorage.setItem("token",loginDetails.data.token);
 
         navigate("/");
 
 
-        
       } catch (error) {
-        toast.error(error.response.data.message);
+        setLogin(true);
+        toast.error(loginDetails.response.data.message);
       }
+
     }
+
     setLogin(true);
   };
 

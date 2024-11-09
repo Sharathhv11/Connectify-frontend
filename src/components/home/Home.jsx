@@ -1,10 +1,22 @@
 import React from 'react'
+import Navbar from './Navbar'
+import SearchSection from './SearchSection'
 
 const Home = () => {
+
+
   return (
-    <div>
-      hello this is hero section of out website
-    </div>
+      <main  className='h-full'>
+        <Navbar/>
+        
+        <div className='w-full h-[88%]   flex justify-between '>
+          <section className='w-[40%] h-full '>
+              <SearchSection/>
+          </section>
+          <section className='w-[60%] h-full bg-green-900'> smnbsmbc</section>
+        </div>
+      </main>
+
   )
 }
 

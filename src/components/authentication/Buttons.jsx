@@ -11,4 +11,4 @@ const Buttons = ({handler,text}) => {
   );
 };
 
-export default Buttons;
+export default React.memo(Buttons);
