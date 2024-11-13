@@ -4,7 +4,8 @@ const user = createSlice({
     name:"user",
     initialState : {
         value : null,
-        allUsers : null
+        allUsers : null,
+        chats:null
     },
     reducers : {
         updateUser : function(state,action){
@@ -12,10 +13,14 @@ const user = createSlice({
         },
         updateAllUsers : function(state,action){
             state.allUsers = action.payload
+        },
+
+        updateChat : function(state,action){
+            state.chats = action.payload
         }
     }
 })
 
-export const  {updateUser,updateAllUsers} = user.actions;
+export const  {updateUser,updateAllUsers,updateChat} = user.actions;
 
 export default user.reducer;

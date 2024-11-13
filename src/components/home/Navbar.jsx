@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <nav className="w-full h-[70px] bg-black flex justify-between items-center px-[30px]  gap-x-[50px]">
       <div className="nav-logo w-[200px] h-full ">
-        <figure className="w-full  h-full sd:max-sm:h-5/6 sd:max-sm:w-5/6 ">
+        <figure className="w-full  h-full sd:max-sm:h-5/6 sd:max-sm:w-5/6 relative top-2">
           <img
             src={logo}
             alt="connectify"

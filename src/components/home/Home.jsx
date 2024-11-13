@@ -6,14 +6,16 @@ const Home = () => {
 
 
   return (
-      <main  className='h-full'>
+      <main  className='h-full min-h-max'>
         <Navbar/>
         
-        <div className='w-full h-[88%]   flex justify-between '>
-          <section className='w-[40%] h-full '>
+        <div className='w-full h-[88%]  min-h-max flex justify-between '>
+          <section className='w-[40%] h-full message-list-section border-r-[1px] border-black '>
               <SearchSection/>
           </section>
-          <section className='w-[60%] h-full bg-green-900'> smnbsmbc</section>
+          <section className='w-[60%] h-full  message-section'> 
+            <div className='w-full h-[60px] bg-purple'></div>
+          </section>
         </div>
       </main>
 

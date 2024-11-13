@@ -168,3 +168,18 @@ body,
   font-size: 15px;
   color: #666;
 }
+
+
+@media screen and (width < 990px) {
+  .message-section{
+    display: none;
+  } 
+
+  .message-list-section{
+    width: 100%;
+  }
+
+  .nav-logo{
+    width:12rem
+  }
+}

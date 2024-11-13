@@ -5,13 +5,14 @@ import UserList from "./UserList";
 
 const SearchSection = () => {
   const [searchKey, setSearchKey] = useState("");
-  let count = 0;
 
-  const { allUsers } = useSelector((state) => state.user);
+  const { allUsers,chats } = useSelector((state) => state.user);
+
+  
 
   return (
     <div className="h-full w-full ">
-      <div className=" w-full h-[15%] flex justify-center items-center">
+      <div className=" w-full h-[15%] flex justify-center items-center ">
         <div className="mx-auto w-[90%]  px-3 h-[40px] border-[1px] border-black rounded-full flex justify-center items-center overflow-hidden">
           <input
             type="text"
@@ -30,20 +31,22 @@ const SearchSection = () => {
         {allUsers
           ?.filter((el) => {
             return (
-              (el.firstname.includes(searchKey) ||
+              ((el.firstname.includes(searchKey) ||
               el.lastname.includes(searchKey)) && searchKey
-            );
+            )) || (chats?.some(chat => chat.members.includes(el._id))) ;
           })
           .map((el, index) => {
             return (
-              <>
                 <UserList
+                key ={index}
+                id={el._id}
                   firstname={el.firstname}
                   email={el.email}
-                  key={index}
+                  profile={el.profile}
+                  connected = {chats.find(chat => {
+                    return chat.members.includes(el._id);
+                  })}
                 />
-         
-              </>
             );
           })}
       </div>
