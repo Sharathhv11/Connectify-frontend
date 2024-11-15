@@ -33,7 +33,7 @@ const SearchSection = () => {
             return (
               ((el.firstname.includes(searchKey) ||
               el.lastname.includes(searchKey)) && searchKey
-            )) || (chats?.some(chat => chat.members.includes(el._id))) ;
+            )) || (chats?.some(chat => chat.members.map(el => el._id).includes(el._id))) ;
           })
           .map((el, index) => {
             return (
@@ -44,7 +44,7 @@ const SearchSection = () => {
                   email={el.email}
                   profile={el.profile}
                   connected = {chats.find(chat => {
-                    return chat.members.includes(el._id);
+                    return chat.members.map(el => el._id).includes(el._id);
                   })}
                 />
             );

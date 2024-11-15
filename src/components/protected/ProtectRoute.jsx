@@ -56,7 +56,7 @@ const ProtectRoute = ({ children }) => {
       if (response.status == 200) {
         dispatch(updateChat(response.data.data));
       } else {
-        const message = result.response?.data.message || result.message;
+        const message = response.response?.data.message || response.message;
         toast.error(message);
         navigate("/login");
       }

@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from './Navbar'
 import SearchSection from './SearchSection'
+import ChatSection from './chat/ChatSection'
 
 const Home = () => {
 
@@ -14,7 +15,7 @@ const Home = () => {
               <SearchSection/>
           </section>
           <section className='w-[60%] h-full  message-section'> 
-            <div className='w-full h-[60px] bg-purple'></div>
+            <ChatSection/>
           </section>
         </div>
       </main>
