@@ -1,5 +1,5 @@
 import { Send } from "lucide-react";
-import { useState } from "react";
+import { useState} from "react";
 import sendMessage from "../../../ApiCalls/message";
 import { useSelector } from "react-redux";
 
@@ -13,18 +13,23 @@ const MsgInp = () => {
         return ;
     }
     try {
-        console.log(selectedChat);
         const response = await  sendMessage({
             chatID : selectedChat._id,
             sender : value._id,
             text : msg
         });
 
-        console.log(response);
+
+        if(response.status === 201){
+          return setMsg("");
+        }
+
+
     } catch (error) {
         
     }
   }
+
 
   return (
     <div className="w-[95%] h-[90%] border-[.1px] border-black rounded-full flex justify-between items-center px-2 focus-within:border-purple focus-within:border-[1.4px] ">

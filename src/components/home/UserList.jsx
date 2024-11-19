@@ -43,9 +43,9 @@ const UserList = ({ firstname, email, profile, connected = false, id }) => {
   };
 
   return (
-    <div className="w-full h-[45px]  flex ">
-      {/* <div className="w-[80%] h-full  flex items-center justify-center "> */}
-      <div className="h-full w-[60px]  flex justify-center items-center">
+    <div className="w-full h-[50px]  flex hover:bg-[#f4efef]">
+
+      <div className="h-full w-[60px]  flex justify-center items-center cursor-pointer">
         <img
           src={profile ?? profileDefault}
           alt=""

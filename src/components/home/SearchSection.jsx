@@ -28,7 +28,7 @@ const SearchSection = () => {
         </div>
       </div>
 
-      <div className="h-[85%] w-[90%] mx-auto  flex flex-col gap-y-2">
+      <div className="h-[85%] w-[90%] mx-auto  flex flex-col gap-y-2 ">
         {allUsers
           ?.reduce((acc, el) => {
             if (
@@ -47,7 +47,7 @@ const SearchSection = () => {
           }, [])
           .map((el, index) => {
             return (
-              <div key={index}>
+              <div key={index} className=" h-[50px]">
                 <UserList
                   id={el._id}
                   firstname={el.firstname}
@@ -57,7 +57,7 @@ const SearchSection = () => {
                     return chat.members.map((el) => el._id).includes(el._id);
                   })}
                 />
-                {index + 1 != count && <div className="w-[95%] mx-auto h-[.1px] rounded-full bg-[#666] mt-1"/>}
+                {index + 1 != count && <div className="w-full mx-auto h-[.1px] rounded-full bg-[#666]"/>}
               </div>
             );
           })}
