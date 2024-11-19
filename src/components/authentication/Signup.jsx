@@ -71,10 +71,16 @@ const Signup = () => {
       try {
         setSignUp(false);
         const postRequest = await signUpClient(userDetails);
-        toast.success(postRequest.data.message);
+
+        if(postRequest.status === 201){
+          setSignUp(true);
+          return toast.success(postRequest.data.message);
+        }
+        setSignUp(true);
+        return toast.error(postRequest.response.data.message);
         
       } catch (error) {
-        console.log(error.response.data.message);
+        setSignUp(true);
         toast.error(error.response.data.message);
       }
     }

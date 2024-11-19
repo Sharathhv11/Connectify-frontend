@@ -1,5 +1,7 @@
 import { useSelector } from "react-redux";
 import defaultProfile from "./../../../assets/profileDefault.png";
+import MsgInp from "./MsgInp";
+
 
 const ChatArea = ({ userDetails }) => {
   const { value } = useSelector((state) => state.user);
@@ -26,9 +28,17 @@ const ChatArea = ({ userDetails }) => {
           <h1 className=" poppins-regular  text-white capitalize">
             {chatUserDetails.firstname + " " + chatUserDetails.lastname}
           </h1>
-          
         </div>
       </nav>
+
+      <main className="w-full h-[90%]">
+        <div className="w-full h-[90%] ">
+
+        </div>
+        <div className="flex justify-center items-start w-full h-[10%] ">
+          <MsgInp />
+        </div>
+      </main>
     </div>
   );
 };

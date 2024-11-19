@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import { useSelector } from "react-redux";
 import UserList from "./UserList";
@@ -6,9 +6,10 @@ import UserList from "./UserList";
 const SearchSection = () => {
   const [searchKey, setSearchKey] = useState("");
 
-  const { allUsers,chats } = useSelector((state) => state.user);
+  const { allUsers, chats } = useSelector((state) => state.user);
 
-  
+  //variable for counting the list size
+  let count = 0;
 
   return (
     <div className="h-full w-full ">
@@ -29,24 +30,35 @@ const SearchSection = () => {
 
       <div className="h-[85%] w-[90%] mx-auto  flex flex-col gap-y-2">
         {allUsers
-          ?.filter((el) => {
-            return (
+          ?.reduce((acc, el) => {
+            if (
               ((el.firstname.includes(searchKey) ||
-              el.lastname.includes(searchKey)) && searchKey
-            )) || (chats?.some(chat => chat.members.map(el => el._id).includes(el._id))) ;
-          })
+                el.lastname.includes(searchKey)) &&
+                searchKey) ||
+              chats?.some((chat) =>
+                chat.members.map((el) => el._id).includes(el._id)
+              )
+            ) {
+              acc.push(el);
+              count++;
+            }
+
+            return acc;
+          }, [])
           .map((el, index) => {
             return (
+              <div key={index}>
                 <UserList
-                key ={index}
-                id={el._id}
+                  id={el._id}
                   firstname={el.firstname}
                   email={el.email}
                   profile={el.profile}
-                  connected = {chats.find(chat => {
-                    return chat.members.map(el => el._id).includes(el._id);
+                  connected={chats.find((chat) => {
+                    return chat.members.map((el) => el._id).includes(el._id);
                   })}
                 />
+                {index + 1 != count && <div className="w-[95%] mx-auto h-[.1px] rounded-full bg-[#666] mt-1"/>}
+              </div>
             );
           })}
       </div>
