@@ -5,14 +5,39 @@ import UserList from "./UserList";
 
 const SearchSection = () => {
   const [searchKey, setSearchKey] = useState("");
+  const [lastMsgRead,setLastMsgRead] = useState(false);
+ 
+  const { allUsers, chats ,value} = useSelector((state) => state.user);
 
-  const { allUsers, chats } = useSelector((state) => state.user);
+
+
+
+  const getSubHeader = (el) => {
+    const result = chats.find((chat) => {
+      return (
+        chat.members.map((el) => el._id).includes(el._id) &&
+        chat.members.map((el) => el._id).includes(value._id)
+      );
+    });
+
+    if(result?.latestMessage){
+      const messagePrefix = result.latestMessage.sender == value._id?"You: ":"";
+      console.log(result);
+      return <p className={`relative -top-[2px]  text-[0.8rem] ${result.latestMessage.sender != value._id && !result.latestMessage.read? "font-bold text-black":"text-[#666]"} `}>
+        {
+          `${messagePrefix} ${result.latestMessage.text?.substring(0,25)}...`
+        }
+      </p>;
+    }else{
+      return <p className="relative -top-[2px] text-[#666]   text-[0.8rem]">{el.email}</p>;
+    }
+  }
 
   //variable for counting the list size
   let count = 0;
 
   return (
-    <div className="h-full w-full ">
+    <div className="h-full w-full overflow-y-scroll">
       <div className=" w-full h-[15%] flex justify-center items-center ">
         <div className="mx-auto w-[90%]  px-3 h-[40px] border-[1px] border-black rounded-full flex justify-center items-center overflow-hidden">
           <input
@@ -47,11 +72,12 @@ const SearchSection = () => {
           }, [])
           .map((el, index) => {
             return (
+                
               <div key={index} className=" h-[50px]">
                 <UserList
                   id={el._id}
                   firstname={el.firstname}
-                  email={el.email}
+                  subHeader={getSubHeader(el)}
                   profile={el.profile}
                   connected={chats.find((chat) => {
                     return chat.members.map((el) => el._id).includes(el._id);

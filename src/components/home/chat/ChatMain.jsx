@@ -6,6 +6,7 @@ import getAllMsg from "../../../ApiCalls/getAllMsg";
 import { ColorRing } from "react-loader-spinner";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import moment from 'moment'
 
 const ChatArea = ({ userDetails }) => {
   const { value, selectedChat } = useSelector((state) => state.user);
@@ -16,6 +17,22 @@ const ChatArea = ({ userDetails }) => {
   const chatUserDetails = userDetails.members.find((element) => {
     return element._id != value._id;
   });
+
+
+  const formatTime = (timestamp) => {
+
+    const currentTime = moment();
+
+    const diff = moment(currentTime).diff(timestamp,"days");
+
+    if(diff < 1){
+      return `Today ${moment(timestamp).format("hh:mm A")}`;
+    }else if(diff === 1){
+      return `Yesterday ${moment(timestamp).format("hh:mm A")}`;
+    }else{
+      return moment(timestamp).format("DD MMM YYYY, hh:mm A");
+    }
+  }
 
   const getMessages = async () => {
     setMsgLoader(true);
@@ -76,17 +93,33 @@ const ChatArea = ({ userDetails }) => {
             </div>
           )}
           {!msgLoader &&
-          
             messages.map((elem) => {
               const sender = elem.sender === value._id;
-              return <div key={elem._id} className={` w-full min-h-4 mt-[5px]   flex ${sender?"justify-end":"justify-start"}`}>
-                <p className={`max-w-[300px] p-1 px-2 rounded-md text-white  ${sender?"bg-purple rounded-br-[0px]":"bg-black rounded-bl-[0px]"}`}> {elem.text}</p>
-                </div>;
-            })
-            }
-
+              return (
+                <div
+                  key={elem._id}
+                  className={` w-full min-h-4 mt-[5px]   flex   flex-col ${
+                    sender ? "items-end" : "items-start"
+                  } `}
+                >
+                  <p
+                    className={`max-w-[300px] p-1 px-2 rounded-md text-white  ${
+                      sender
+                        ? "bg-purple rounded-br-[0px]"
+                        : "bg-black rounded-bl-[0px]"
+                    }`}
+                  >
+                    {" "}
+                    {elem.text}
+                  </p>
+                  <p className="text-black text-[.8rem]">
+                    {formatTime(elem.createdAt)}
+                    </p>
+                </div>
+              );
+            })}
         </div>
-        <div className="flex justify-center items-start w-full h-[10%] ">
+        <div className="flex justify-center items-center w-full h-[10%] ">
           <MsgInp />
         </div>
       </main>
@@ -95,6 +128,3 @@ const ChatArea = ({ userDetails }) => {
 };
 
 export default ChatArea;
-
-
-

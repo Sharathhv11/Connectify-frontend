@@ -32,7 +32,7 @@ const MsgInp = () => {
 
 
   return (
-    <div className="w-[95%] h-[90%] border-[.1px] border-black rounded-full flex justify-between items-center px-2 focus-within:border-purple focus-within:border-[1.4px] ">
+    <div className="w-[95%] h-[40px] border-[.1px] border-black rounded-full flex justify-between items-center px-2 focus-within:border-purple focus-within:border-[1.4px] ">
       <input
         type="text"
         placeholder="Say something..."

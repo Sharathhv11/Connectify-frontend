@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import profileDefault from "./../../assets/profileDefault.png";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { startChat } from "./../../ApiCalls/chatApis";
 import { updateChat, updateSelectedChat } from "../../state/userSlice";
+import moment from 'moment'
 
-const UserList = ({ firstname, email, profile, connected = false, id }) => {
+const UserList = ({
+  firstname,
+  subHeader = "",
+  profile,
+  connected = false,
+  id
+}) => {
+
   const { value, chats } = useSelector((state) => state.user);
+
+  const [unReadMsgCount,setunReadMsgCount] = useState(0);
+  const [msgCreatedAt,setMsgCreatedAt] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -20,6 +31,23 @@ const UserList = ({ firstname, email, profile, connected = false, id }) => {
 
     return result;
   };
+
+  const getUnReadCount = (id) => {
+    const result = chats.find((chat) => {
+      return (
+        chat.members.map((el) => el._id).includes(id) &&
+        chat.members.map((el) => el._id).includes(value._id)
+      );
+    });
+
+    setMsgCreatedAt(result?.createdAt);
+    setunReadMsgCount(result?.unReadMessages);
+  }
+
+
+  useEffect(()=>{
+    getUnReadCount(id);
+  },[])
 
   const createNewChat = async (searchedUser) => {
     try {
@@ -44,7 +72,6 @@ const UserList = ({ firstname, email, profile, connected = false, id }) => {
 
   return (
     <div className="w-full h-[50px]  flex hover:bg-[#f4efef]">
-
       <div className="h-full w-[60px]  flex justify-center items-center cursor-pointer">
         <img
           src={profile ?? profileDefault}
@@ -62,11 +89,12 @@ const UserList = ({ firstname, email, profile, connected = false, id }) => {
         <h1 className="relative top-[5px] poppins-regular text-base">
           {firstname}
         </h1>
-        <h5 className="relative -top-[2px]  card-text text-sm">{email}</h5>
+        {/* <h5 className="relative -top-[2px]  card-text text-sm">{subHeader}</h5> */}
+        {subHeader}
       </div>
 
+      <div className="w-[20%] h-full grid place-items-center ">
       {!connected && (
-        <div className="w-[20%] h-full grid place-items-center">
           <button
             className="border-[1.3px] p-2 rounded-full  border-black h-[50%] flex justify-center items-center font-mono "
             onClick={() => {
@@ -75,10 +103,29 @@ const UserList = ({ firstname, email, profile, connected = false, id }) => {
           >
             connect
           </button>
+        
+      )}{
+        connected && 
+        <div className="text-sm font-semibold">
+           {
+              unReadMsgCount && msgCreatedAt && <h1>{`${unReadMsgCount}+`}</h1> ||
+              !unReadMsgCount && msgCreatedAt && <h1>{moment(msgCreatedAt).format("hh:mm A")}</h1> ||
+              !unReadMsgCount && !msgCreatedAt && ""
+           }
         </div>
-      )}
+      }
+      </div>
     </div>
   );
 };
 
 export default UserList;
+
+
+// {
+//   unReadMsgCount!==0 && 
+//   <h1>{`${unReadMsgCount}+`}</h1>
+// }{
+//   !unReadMsgCount && msgCreatedAt &&
+//   <h1 className="text-black text-[.8rem]">{moment(msgCreatedAt).format("hh:mm A")}</h1>
+// }
