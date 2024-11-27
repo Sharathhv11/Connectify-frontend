@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import defaultProfile from "./../../../assets/profileDefault.png";
 import MsgInp from "./MsgInp";
 import { useEffect, useState } from "react";
@@ -6,10 +6,14 @@ import getAllMsg from "../../../ApiCalls/getAllMsg";
 import { ColorRing } from "react-loader-spinner";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import moment from 'moment'
+import moment from "moment";
+import clearMsgCount from "../../../ApiCalls/clearMsgCount";
+import seen from "./../../../assets/seen.svg";
+import { updateChat } from "./../../../state/userSlice";
 
 const ChatArea = ({ userDetails }) => {
-  const { value, selectedChat } = useSelector((state) => state.user);
+  const { value, selectedChat, chats } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [msgLoader, setMsgLoader] = useState(false);
   const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
@@ -18,21 +22,19 @@ const ChatArea = ({ userDetails }) => {
     return element._id != value._id;
   });
 
-
   const formatTime = (timestamp) => {
-
     const currentTime = moment();
 
-    const diff = moment(currentTime).diff(timestamp,"days");
+    const diff = moment(currentTime).diff(timestamp, "days");
 
-    if(diff < 1){
+    if (diff < 1) {
       return `Today ${moment(timestamp).format("hh:mm A")}`;
-    }else if(diff === 1){
+    } else if (diff === 1) {
       return `Yesterday ${moment(timestamp).format("hh:mm A")}`;
-    }else{
+    } else {
       return moment(timestamp).format("DD MMM YYYY, hh:mm A");
     }
-  }
+  };
 
   const getMessages = async () => {
     setMsgLoader(true);
@@ -52,8 +54,34 @@ const ChatArea = ({ userDetails }) => {
     }
   };
 
+  const clearCount = async () => {
+    try {
+      const response = await clearMsgCount(selectedChat._id);
+
+      if (response.status === 200) {
+        const data = chats.map((chat) => {
+          if (chat._id == response.data.data[0]._id) {
+            return response.data.data[0];
+          }
+
+          return chat;
+        });
+
+        dispatch(updateChat(data));
+      } else if (response.status === 401) {
+        toast.error("please login again");
+        navigate("/login");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     getMessages();
+    if (selectedChat?.latestMessage?.sender !== value._id) {
+      clearCount();
+    }
   }, [selectedChat]);
 
   return (
@@ -103,7 +131,7 @@ const ChatArea = ({ userDetails }) => {
                   } `}
                 >
                   <p
-                    className={`max-w-[300px] p-1 px-2 rounded-md text-white  ${
+                    className={`max-w-[300px] p-1 px-2 rounded-md text-white flex flex-col ${
                       sender
                         ? "bg-purple rounded-br-[0px]"
                         : "bg-black rounded-bl-[0px]"
@@ -112,9 +140,12 @@ const ChatArea = ({ userDetails }) => {
                     {" "}
                     {elem.text}
                   </p>
-                  <p className="text-black text-[.8rem]">
+                  <p className="text-black text-[.8rem] flex items-center gap-[4px]">
                     {formatTime(elem.createdAt)}
-                    </p>
+                    {elem.read && elem.sender === value._id && (
+                     <img src={seen} className="w-[14px] h-[14px]"/>
+                    )}
+                  </p>
                 </div>
               );
             })}

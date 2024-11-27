@@ -40,14 +40,15 @@ const UserList = ({
       );
     });
 
-    setMsgCreatedAt(result?.createdAt);
+
+    setMsgCreatedAt(result?.latestMessage?.createdAt);
     setunReadMsgCount(result?.unReadMessages);
   }
 
 
   useEffect(()=>{
     getUnReadCount(id);
-  },[])
+  },[chats])
 
   const createNewChat = async (searchedUser) => {
     try {
@@ -106,10 +107,10 @@ const UserList = ({
         
       )}{
         connected && 
-        <div className="text-sm font-semibold">
+        <div>
            {
-              unReadMsgCount && msgCreatedAt && <h1>{`${unReadMsgCount}+`}</h1> ||
-              !unReadMsgCount && msgCreatedAt && <h1>{moment(msgCreatedAt).format("hh:mm A")}</h1> ||
+              unReadMsgCount && msgCreatedAt && <h1 className=" text-[.8rem]  bg-black rounded-full w-6 h-6 text-white flex justify-center items-center font-bold">{`${unReadMsgCount}`}</h1> ||
+              !unReadMsgCount && msgCreatedAt && <h1 className="text-black text-[.8rem]">{moment(msgCreatedAt).format("hh:mm A")}</h1> ||
               !unReadMsgCount && !msgCreatedAt && ""
            }
         </div>
@@ -120,12 +121,3 @@ const UserList = ({
 };
 
 export default UserList;
-
-
-// {
-//   unReadMsgCount!==0 && 
-//   <h1>{`${unReadMsgCount}+`}</h1>
-// }{
-//   !unReadMsgCount && msgCreatedAt &&
-//   <h1 className="text-black text-[.8rem]">{moment(msgCreatedAt).format("hh:mm A")}</h1>
-// }

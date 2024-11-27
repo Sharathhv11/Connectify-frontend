@@ -11,6 +11,28 @@ const SearchSection = () => {
 
 
 
+  const transform = () => {
+    const result = allUsers.reduce((acc, el) => {
+      if (
+        ((el.firstname.includes(searchKey) ||
+          el.lastname.includes(searchKey)) &&
+          searchKey) ||
+        chats?.some((chat) =>
+          chat.members.map((el) => el._id).includes(el._id)
+        )
+      ) {
+        acc.push(el);
+        count++;
+      }
+      return acc;
+    }, [])
+
+    console.log(result);
+    return result;
+  }
+
+
+
 
   const getSubHeader = (el) => {
     const result = chats.find((chat) => {
@@ -22,7 +44,6 @@ const SearchSection = () => {
 
     if(result?.latestMessage){
       const messagePrefix = result.latestMessage.sender == value._id?"You: ":"";
-      console.log(result);
       return <p className={`relative -top-[2px]  text-[0.8rem] ${result.latestMessage.sender != value._id && !result.latestMessage.read? "font-bold text-black":"text-[#666]"} `}>
         {
           `${messagePrefix} ${result.latestMessage.text?.substring(0,25)}...`
@@ -54,23 +75,10 @@ const SearchSection = () => {
       </div>
 
       <div className="h-[85%] w-[90%] mx-auto  flex flex-col gap-y-2 ">
-        {allUsers
-          ?.reduce((acc, el) => {
-            if (
-              ((el.firstname.includes(searchKey) ||
-                el.lastname.includes(searchKey)) &&
-                searchKey) ||
-              chats?.some((chat) =>
-                chat.members.map((el) => el._id).includes(el._id)
-              )
-            ) {
-              acc.push(el);
-              count++;
-            }
-
-            return acc;
-          }, [])
+        {allUsers != null && transform()
           .map((el, index) => {
+
+           
             return (
                 
               <div key={index} className=" h-[50px]">
